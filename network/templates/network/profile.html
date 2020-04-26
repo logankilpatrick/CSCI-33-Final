@@ -1,0 +1,64 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+
+    <div class="card mb-3">
+        <div class="row no-gutters">
+            <div class="card-body">
+                <h5 class="card-title">
+                    {{ author_name }}
+                </h5>
+                <h6 class="card-title">
+                    Followers: {{ followers }} Following: {{ following }}
+                </h6>
+                <div>
+                    {% if user.is_authenticated %}
+                        {% if user.id == author_id %}
+                            
+                        {% elif followed %}
+                            <form action="{% url 'unfollow' author_id %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="author_id" value="{{ author_id }}">
+                                <input class="btn btn-sm btn-primary" type="submit" value="Unfollow">
+                            </form>
+                        {% else %}
+                            <form action="{% url 'follow' author_id %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="author_id" value="{{ author_id }}">
+                                <input class="btn btn-sm btn-primary" type="submit" value="Follow">
+                            </form>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="posts">
+        {% for post in posts %}
+            {% if post.author.id == author_id %}
+                <div class="card mb-3">
+                    <div class="row no-gutters">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{% url 'profile' post.author.id%}">{{ post.author }}</a>
+                            </h5>
+                            {% if user.is_authenticated %}
+                                {% if user.id == post.author.id %}
+                                    <a href="{% url 'editpost' post.id%}">Edit</a>
+                                {% endif %}
+                                <i class="fa fa-thumbs-up"></i>
+                            {% endif %}
+                            <p class="card-text">{{ post.content }}</p>
+                            <p class="card-text"><small class="text-muted">Created {{ post.creation_time }}</small></p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% empty %}
+            No active listings.
+        {% endfor %}
+    </div>
+
+{% endblock %}
