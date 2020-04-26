@@ -11,8 +11,8 @@ urlpatterns = [
     path("newschool", views.newschool, name="newschool"),
     path("newprogram", views.newprogram, name="newprogram"),
     path("<int:post_id>", views.editpost, name="editpost"),
-    path("profile/<int:author_id>", views.profile, name="profile"),
+    path("profile/<int:schoolID>", views.profile, name="profile"),
     path("following", views.following, name="following"),
-    path("follow/<int:author_id>", views.follow, name="follow"),
-    path("unfollow/<int:author_id>", views.unfollow, name="unfollow")
+    path("follow/<str:schoolName>", views.follow, name="follow"),
+    path("unfollow/<str:schoolName>", views.unfollow, name="unfollow")
 ]

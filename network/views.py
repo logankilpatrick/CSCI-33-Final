@@ -38,47 +38,23 @@ def following(request):
         "posts": followed_posts
     })
 
-# Shows the users profile when their profile name is clicked on
+# Shows the Schools profile when their profile name is clicked on
 # Renders followers, following, and unfollow button logic. 
-def profile(request, author_id):
-    posts = Post.objects.order_by("-creation_time").reverse().all()
-    users = User.objects.all()
-    username = get_object_or_404(User, pk=author_id)
+def profile(request, schoolID):
+    schools = School.objects.order_by("-name").all()
+    programs = Program.objects.all()
 
-    following = 0
-    followers = 0
+    schoolName = schools[schoolID].name
 
-    followed = False
+    # TODO: Pre-compute number of followers who follow said school. Use old code. 
 
-    # Logic to set following
-    for user in users:
-        if user.id == author_id:
-            for _ in user.following.all(): 
-                following += 1
+    
 
-    # Logic to set the followers
-    for user in users:
-        if username in user.following.all():
-            followers += 1
-
-    # Logic to set the follow/unfollow button. 
-    # TODO: This needs fetch/put logic to update this filed but I am not sure how to do this...
-    # since it is a ManyToManyField. A number or boolean are easy to update but I am not sure about 
-    # the ManyToManyField. 
-    if username in request.user.following.all():
-            followed = True
-    else:
-        followed = False
-
-    #Renders all of the info the profile.html page will need. 
     return render(request, "network/profile.html", {
-        "posts": posts,
-        "author_id": author_id,
-        "following": following,
-        "followers": followers,
-        "author_name": username,
-        "followed": followed,
-
+        "schools": schools, 
+        "programs": programs,
+        "SchoolID":schoolID,
+        "schoolName": schoolName
     })
 
 # Creates a new School object and then returns us to the index page. 
@@ -129,7 +105,7 @@ def editpost(request, post_id):
 
 # This will follow a user that is not being followed right now
 @login_required
-def follow(request, author_id):
+def follow(request, schoolName):
     if request.method == "POST":
 
         for user in User.objects.all():
@@ -149,7 +125,7 @@ def follow(request, author_id):
 
 # This will unfollow a user that is being followed right now
 @login_required
-def unfollow(request, author_id):
+def unfollow(request, schoolName):
     if request.method == "POST":
         for user in User.objects.all():
             if user.id == author_id: 
