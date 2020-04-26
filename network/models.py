@@ -18,7 +18,7 @@ class Program(models.Model):
     name = models.TextField(blank=True)
 
 class School(models.Model):
-    programs = models.ManyToManyField("Program", blank=True, default=None, null=True, related_name="schoolprograms")
+    programs = models.ManyToManyField("Program", blank=True, default=None, related_name="schoolprograms")
     # Each school can have many programs. 
 
     name = models.TextField(blank=True)

@@ -81,14 +81,36 @@ def profile(request, author_id):
 
     })
 
-# Creates a new Post object and then returns us to the index. 
+# Creates a new School object and then returns us to the index page. 
 @login_required
-def newpost(request):
+def newschool(request):
     if request.method == "POST":
-        body = request.POST["body"]
+        name = request.POST["body"]        
+        schoolName = School.objects.filter(name = name).exists()
         
-        post = Post(content=body, author=request.user)
-        post.save()
+        # If the school name already exists, take them back to the main page. 
+        if schoolName:
+            # TODO: Go to 404 page instead or stay on the same page. 
+            return render(request, "network/index.html")
+
+
+        school = School(name=name)
+        school.save()
+
+        return render(request, "network/index.html")
+
+
+# Creates a new Program object and then returns us to the index page. 
+@login_required
+def newprogram(request):
+    if request.method == "POST":
+        programname = request.POST["programname"]
+        school = request.POST["schooloptions"].selected()
+
+        schoolobj = School.objects.get("school")
+
+        school = Program(School=schoolobj, name=programname)
+        school.save()
 
         return render(request, "network/index.html")
 

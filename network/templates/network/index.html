@@ -7,14 +7,38 @@
             <div class="card mb-3">
                 <div class="row no-gutters">
                     <div class="card-body">
-                        <form action="{% url 'newpost' %}" method="post">
+                        <form action="{% url 'newschool' %}" method="post">
                             {% csrf_token %}
-                            New Post
+                            Add School
                             <div class="form-group">
                                 <input autofocus class="form-control" type="text" name="body" placeholder="">
                             </div>
                             <input class="btn btn-primary" type="submit" value="Post">
                         </form>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <div id = "new_program">
+        {% if user.is_authenticated %}
+            <div class="card mb-3">
+                <div class="row no-gutters">
+                    <div class="card-body">
+                        <form action="{% url 'newprogram' %}" method="post" novalidate>
+                            {% csrf_token %}
+                            TODO: Add Program to School
+                            <select name="schooloptions">
+                                {% for school in schools %}
+                                    <option value="{{ school.name }}">{{ school.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="form-group">
+                                <input autofocus class="form-control" type="text" name="programname" placeholder="">
+                            </div>
+                            <input class="btn btn-primary" type="submit" value="Post">
+                        </form>                        
                     </div>
                 </div>
             </div>
