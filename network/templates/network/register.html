@@ -16,6 +16,15 @@
         <div class="form-group">
             <input class="form-control" type="email" name="email" placeholder="Email Address">
         </div>
+        <select name="programoptions">
+            {% for program in programs %}
+                <option value="{{ program.name }}">{{ program.school.name }} {{ program.name }}</option>
+            {% endfor %}
+        </select>
+
+        <input type="checkbox" name="ismentor">
+        <label for="mentor">Are you a Program Mentor?</label><br>
+
         <div class="form-group">
             <input class="form-control" type="password" name="password" placeholder="Password">
         </div>

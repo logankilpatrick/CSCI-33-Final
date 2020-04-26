@@ -190,9 +190,19 @@ def logout_view(request):
 
 
 def register(request):
+    programs = Program.objects.all()
     if request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]
+        programName = request.POST["programoptions"]        
+        programobj = Program.objects.get(name=programName)
+
+        try:
+            request.POST["ismentor"] 
+            isMentor = True
+        except:
+            # If it errors out it means the box was not checked. 
+            isMentor = False
 
         # Ensure password matches confirmation
         password = request.POST["password"]
@@ -204,7 +214,7 @@ def register(request):
 
         # Attempt to create new user
         try:
-            user = User.objects.create_user(username, email, password)
+            user = User.objects.create_user(username, email, password, program=programobj, isMentor=isMentor)
             user.save()
         except IntegrityError:
             return render(request, "network/register.html", {
@@ -213,4 +223,6 @@ def register(request):
         login(request, user)
         return HttpResponseRedirect(reverse("index"))
     else:
-        return render(request, "network/register.html")
+        return render(request, "network/register.html", {
+            "programs": programs,
+        })
