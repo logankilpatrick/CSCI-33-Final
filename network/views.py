@@ -105,11 +105,11 @@ def newschool(request):
 def newprogram(request):
     if request.method == "POST":
         programname = request.POST["programname"]
-        school = request.POST["schooloptions"].selected()
+        schoolname = request.POST["schooloptions"]
 
-        schoolobj = School.objects.get("school")
+        schoolobj = School.objects.get(name=schoolname)
 
-        school = Program(School=schoolobj, name=programname)
+        school = Program(school=schoolobj, name=programname)
         school.save()
 
         return render(request, "network/index.html")

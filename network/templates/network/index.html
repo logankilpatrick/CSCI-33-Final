@@ -28,7 +28,7 @@
                     <div class="card-body">
                         <form action="{% url 'newprogram' %}" method="post" novalidate>
                             {% csrf_token %}
-                            TODO: Add Program to School
+                            Add Program to School
                             <select name="schooloptions">
                                 {% for school in schools %}
                                     <option value="{{ school.name }}">{{ school.name }}</option>
