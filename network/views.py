@@ -6,15 +6,17 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
-from .models import User, Post
+from .models import User, Program, School
 import time
 
 # Returns all posts in order of when they were created. 
 def index(request):
-    posts = Post.objects.order_by("-creation_time").all()
+    schools = School.objects.order_by("-name").all()
+    programs = Program.objects.all()
 
     return render(request, "network/index.html", {
-        "posts": posts
+        "schools": schools, 
+        "programs": programs,
     })
     #TODO: Still need to do paignation
 

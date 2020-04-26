@@ -3,14 +3,26 @@ from django.db import models
 
 
 class User(AbstractUser):
-    liked_posts = models.ManyToManyField("Post", related_name="likes")
-    following = models.ManyToManyField("User", related_name="users_followed")
+    following = models.ManyToManyField("School", related_name="schools_followed")
+    # Each student can follow many schools. 
+
+    program = models.ForeignKey("Program", default=None, null=True, on_delete=models.CASCADE, related_name="studentsprogram")
+    isMentor = models.BooleanField(blank=True, default=False)
+    mentor = models.ForeignKey("User", blank=True, default=None, null=True, on_delete=models.CASCADE, related_name="studentsmentor")
 
 
-class Post(models.Model):
-    content = models.TextField(blank=True)
-    creation_time = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey("User", on_delete=models.CASCADE, related_name="post_author")
+
+class Program(models.Model):
+    school = models.ForeignKey("School", blank=True, default=None, null=True, on_delete=models.CASCADE, related_name="schools")
+    # Each program has a school associated with it. 
+    name = models.TextField(blank=True)
+
+class School(models.Model):
+    programs = models.ManyToManyField("Program", blank=True, default=None, null=True, related_name="schoolprograms")
+    # Each school can have many programs. 
+
+    name = models.TextField(blank=True)
+
 
 # Do not forget to run "python manage.py makemigrations" and then "python manage.py migrate"
 # after any changes are made to this file. 
