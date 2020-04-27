@@ -41,20 +41,37 @@ def following(request):
 # Shows the Schools profile when their profile name is clicked on
 # Renders followers, following, and unfollow button logic. 
 def profile(request, schoolID):
-    schools = School.objects.order_by("-name").all()
+    schools = School.objects.get(id=schoolID)
     programs = Program.objects.all()
 
-    schoolName = schools[schoolID].name
+    schoolName = schools.name
 
     # TODO: Pre-compute number of followers who follow said school. Use old code. 
 
-    
+
 
     return render(request, "network/profile.html", {
         "schools": schools, 
         "programs": programs,
         "SchoolID":schoolID,
         "schoolName": schoolName
+    })
+
+# Shows the Programs profile when their profile name is clicked on
+# Renders studnets in the program who are mentors. 
+def program(request, schoolName, programName):
+    school = School.objects.get(name=schoolName)
+    program = Program.objects.get(school=school, name=programName)
+
+    students = User.objects.filter(program=program)
+
+    # TODO: I think we may want to pass in the User object itself. 
+
+    return render(request, "network/program.html", {
+        "program": program,
+        "SchoolName":schoolName,
+        "programName": programName,
+        "Students": students,
     })
 
 # Creates a new School object and then returns us to the index page. 

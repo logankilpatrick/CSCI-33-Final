@@ -42,8 +42,7 @@
                     <div class="row no-gutters">
                         <div class="card-body">
                             <h5 class="card-title">
-                                Some other Info about the Program.  
-                                <!-- <a href="{% url 'profile' program.school.id %}">{{ program.name }}</a> -->
+                                <a href="{% url 'program' schoolName program.name %}">{{ program.name }}</a>
                             </h5>
                             <h6 class="card-title">
                                 <p>{{ program.name }}</p>

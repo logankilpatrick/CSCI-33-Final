@@ -3,7 +3,7 @@ from django.db import models
 
 
 class User(AbstractUser):
-    following = models.ManyToManyField("School", related_name="schools_followed")
+    following = models.ManyToManyField("School", related_name="schools_followed", default=None)
     # Each student can follow many schools. 
 
     program = models.ForeignKey("Program", default=None, null=True, on_delete=models.CASCADE, related_name="studentsprogram")
