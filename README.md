@@ -5,11 +5,12 @@ Final Project for CSCI-33 Spring 2020
 
 __In a sentence (or list of features), define a GOOD outcome for your final project. I.e., what WILL you accomplish no matter what?__
 
-- Ability for mentors/students to sign up
-- Breakdown of all the different schools for students
-- Chat feature for students/mentors 
-- Profile for mentors
-- Main public feed that shows successful mentored students 
+- [x] Ability for mentors/students to sign up
+- [x] Breakdown of all the different schools for students
+- [ ] Chat feature for students/mentors 
+- [ ] Profile for mentors
+- ~~Main public feed that shows successful mentored students~~ 
+  - (Switched to have the main feed be newly added programs)
 
 __In a sentence (or list of features), define a BETTER outcome for your final project. I.e., what do you THINK you can accomplish before the final project's deadline?__
 
