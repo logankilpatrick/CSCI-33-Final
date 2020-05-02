@@ -39,7 +39,7 @@
                         <div class="row no-gutters">
                             <div class="card-body">
                                 <h6 class="card-title">
-                                    <p>{{ student }}</p>
+                                    <a href="{% url 'userprofile' student.id %}">{{ student }}</a>
                                 </h6>
                             </div>
                         </div>

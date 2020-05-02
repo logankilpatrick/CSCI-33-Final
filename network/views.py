@@ -49,7 +49,6 @@ def profile(request, schoolID):
     # TODO: Pre-compute number of followers who follow said school. Use old code. 
 
 
-
     return render(request, "network/profile.html", {
         "schools": schools, 
         "programs": programs,
@@ -73,6 +72,24 @@ def program(request, schoolName, programName):
         "programName": programName,
         "Students": students,
     })
+
+# Naviagtes user to the profile of another user. 
+@login_required
+def userprofile(request, studentID):
+    student = User.objects.get(id=studentID)
+
+    return render(request, "network/userprofile.html", {
+        "studentID": student.id,
+        "programschool": student.program.school.name,
+        "programname": student.program.name,
+        "studentname": student.username,
+        "isMentor": student.isMentor,
+    })
+
+# Naviagtes user to the profile of another user. 
+@login_required
+def chat(request):
+    pass
 
 # Creates a new School object and then returns us to the index page. 
 @login_required
