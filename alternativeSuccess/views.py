@@ -12,30 +12,13 @@ import time
 # Returns all posts in order of when they were created. 
 def index(request):
     schools = School.objects.order_by("-name").all()
+    # TODO: Make creation time and not name. 
+
     programs = Program.objects.all()
 
     return render(request, "alternativeSuccess/index.html", {
         "schools": schools, 
         "programs": programs,
-    })
-    #TODO: Still need to do paignation
-
-# Shows the "following" page where only made by a user that you are following will show.
-def following(request):
-
-    posts = Post.objects.order_by("-creation_time").all()
-    users = User.objects.all()
-    
-    followed_posts = []
-
-    # Logic to get only posts that are of users the current user is following 
-    for post in posts.all():
-        if post.author in request.user.following.all():
-            followed_posts.append(post)
-
-
-    return render(request, "alternativeSuccess/following.html", {
-        "posts": followed_posts
     })
 
 # Shows the Schools profile when their profile name is clicked on
@@ -47,13 +30,19 @@ def profile(request, schoolID):
     schoolName = schools.name
 
     # TODO: Pre-compute number of followers who follow said school. Use old code. 
+    
+    followed = False
+    for school in request.user.following.all():
+        if schoolID == school.id:
+            followed = True
 
 
     return render(request, "alternativeSuccess/profile.html", {
         "schools": schools, 
         "programs": programs,
         "SchoolID":schoolID,
-        "schoolName": schoolName
+        "schoolName": schoolName,
+        "followed": followed,
     })
 
 # Shows the Programs profile when their profile name is clicked on
@@ -140,42 +129,46 @@ def editpost(request, post_id):
 
     return render(request, "alternativeSuccess/index.html")
 
+# Shows the "following" page where only schools you are following will show.
+def following(request):
+    schools = request.user.following.all()
+    
+    programs = []
+    for school in schools:
+        holder = Program.objects.filter(school=school)
+        for program in holder:
+            programs.append(program)
+    
+    return render(request, "alternativeSuccess/following.html", {
+        "schools": schools,
+        "programs": programs,
+    })
+
 # This will follow a user that is not being followed right now
 @login_required
 def follow(request, schoolName):
+
     if request.method == "POST":
 
-        for user in User.objects.all():
-            if user.id == author_id: 
-                # TODO: This does not work.
-                user.following.filter(id=user.id)
-                user.save()
+        schoolobj = School.objects.get(name=schoolName)        
+        request.user.following.add(schoolobj)
+        request.user.save()
 
-    # Return to the index page after a unfollow. 
-    # TODO: Should stay on the same page. 
-    posts = Post.objects.order_by("-creation_time").all()
-
-    return render(request, "alternativeSuccess/index.html", {
-        "posts": posts
-    })
+    return HttpResponseRedirect(reverse("profile", args=(schoolobj.id,)))
 
 
 # This will unfollow a user that is being followed right now
 @login_required
 def unfollow(request, schoolName):
+
     if request.method == "POST":
-        for user in User.objects.all():
-            if user.id == author_id: 
-                user.following.filter(id=user.id).delete()
-                user.save()
 
-    # Return to the index page after a unfollow. 
-    # TODO: Should stay on the same page. 
-    posts = Post.objects.order_by("-creation_time").all()
+        schoolobj = School.objects.get(name=schoolName)
+        request.user.following.remove(schoolobj)        
+        request.user.save()
 
-    return render(request, "alternativeSuccess/index.html", {
-        "posts": posts
-    })
+    return HttpResponseRedirect(reverse("profile", args=(schoolobj.id,)))
+
 
 def login_view(request):
     if request.method == "POST":

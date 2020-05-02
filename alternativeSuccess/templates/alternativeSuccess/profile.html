@@ -17,13 +17,13 @@
                         {% if followed %}
                             <form action="{% url 'unfollow' schoolName %}" method="post">
                                 {% csrf_token %}
-                                <input type="hidden" name="author_id" value="{{ author_id }}">
+                                <input type="hidden" name="schoolName" value="{{ schoolName }}">
                                 <input class="btn btn-sm btn-primary" type="submit" value="Unfollow">
                             </form>
                         {% else %}
                             <form action="{% url 'follow' schoolName %}" method="post">
                                 {% csrf_token %}
-                                <input type="hidden" name="author_id" value="{{ author_id }}">
+                                <input type="hidden" name="schoolName" value="{{ schoolName }}">
                                 <input class="btn btn-sm btn-primary" type="submit" value="Follow">
                             </form>
                         {% endif %}
