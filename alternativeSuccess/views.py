@@ -30,7 +30,16 @@ def profile(request, schoolID):
     schoolName = schools.name
 
     # TODO: Pre-compute number of followers who follow said school. Use old code. 
-    
+    followers = 0
+    users = User.objects.all()
+
+    for user in users:
+        schoolsFollowed = request.user.following.all()
+        for school in schoolsFollowed:
+            if school.name == schoolName:
+                followers += 1
+
+
     followed = False
     for school in request.user.following.all():
         if schoolID == school.id:
@@ -43,6 +52,7 @@ def profile(request, schoolID):
         "SchoolID":schoolID,
         "schoolName": schoolName,
         "followed": followed,
+        "followers": followers,
     })
 
 # Shows the Programs profile when their profile name is clicked on
