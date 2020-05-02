@@ -1,0 +1,48 @@
+{% extends "alternativeSuccess/layout.html" %}
+
+{% block body %}
+
+    <div class="card mb-3">
+        <div class="row no-gutters">
+            <div class="card-body">
+                <h5 class="card-title">
+                    {{ studentname }}
+                </h5>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="studentInfo">
+        {% if user.is_authenticated %}
+            <div class="card mb-3">
+                <div class="row no-gutters">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            {{ studentname }}
+                        </h5>
+                        <h6 class="card-title">
+                            <p>{{ programschool }}: {{ programname }}</p>
+                            
+                            {% if isMentor %}
+                                {{ studentname }} is a mentor.
+                            {% else %}
+                                {{ studentname }} is a student looking for a mentor.
+                            {% endif %}
+                
+                            {% if user.username != studentname %}
+                                <form action="{% url 'chat' %}" method="post">
+                                    {% csrf_token %}
+                                    <input class="btn btn-primary" type="submit" value="Chat with mentor">
+                                </form>
+                            {% endif %}
+                            <!-- No arguments for now but may need to pass one in. -->
+                            
+                        </h6>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}
