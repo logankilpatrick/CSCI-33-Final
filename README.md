@@ -7,7 +7,7 @@ __In a sentence (or list of features), define a GOOD outcome for your final proj
 
 - [x] Ability for mentors/students to sign up
 - [x] Breakdown of all the different schools for students
-- [ ] Chat feature for students/mentors 
+- [ ] Chat feature for students/mentors (Using JavaScript)
 - [x] Profile for mentors
 - ~~Main public feed that shows successful mentored students~~ 
   - (Switched to have the main feed be newly added programs)
