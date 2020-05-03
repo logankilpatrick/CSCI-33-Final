@@ -45,7 +45,7 @@ def profile(request, schoolID):
     users = User.objects.all()
     if request.user.is_authenticated:
         for user in users:
-            schoolsFollowed = request.user.following.all()
+            schoolsFollowed = user.following.all()
             for school in schoolsFollowed:
                 if school.name == schoolName:
                     followers += 1
@@ -188,10 +188,10 @@ def following(request):
 def follow(request, schoolName):
 
     if request.method == "POST":
+        user = User.objects.get(username=request.user.username)
 
         schoolobj = School.objects.get(name=schoolName)        
-        request.user.following.add(schoolobj)
-        request.user.save()
+        user.following.add(schoolobj)
 
     return HttpResponseRedirect(reverse("profile", args=(schoolobj.id,)))
 
@@ -201,10 +201,8 @@ def follow(request, schoolName):
 def unfollow(request, schoolName):
 
     if request.method == "POST":
-
         schoolobj = School.objects.get(name=schoolName)
         request.user.following.remove(schoolobj)        
-        request.user.save()
 
     return HttpResponseRedirect(reverse("profile", args=(schoolobj.id,)))
 
