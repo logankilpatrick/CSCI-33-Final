@@ -17,7 +17,12 @@ urlpatterns = [
     path("follow/<str:schoolName>", views.follow, name="follow"),
     path("unfollow/<str:schoolName>", views.unfollow, name="unfollow"),
     path("userprofile/<int:studentID>", views.userprofile, name="userprofile"),
-    path("chat", views.chat, name="chat"),
+    
+    # API Routes
+    path("chathome", views.chatindex, name="chatindex"),
+    path("chat", views.compose, name="compose"),
+    path("chat/<int:email_id>", views.chat, name="chat"),
+    path("chat/<str:mailbox>", views.chatbox, name="chatbox"),
 
     
 ]
