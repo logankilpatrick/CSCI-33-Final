@@ -24,6 +24,25 @@ class School(models.Model):
     name = models.TextField(blank=True)
 
 
+class Message(models.Model):
+    user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="emails")
+    sender = models.ForeignKey("User", on_delete=models.PROTECT, related_name="emails_sent")
+    recipients = models.ManyToManyField("User", related_name="emails_received")
+    body = models.TextField(blank=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    read = models.BooleanField(default=False)
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "sender": self.sender.email,
+            "recipients": [user.message for user in self.recipients.all()],
+            "body": self.body,
+            "timestamp": self.timestamp.strftime("%b %-d %Y, %-I:%M %p"),
+            "read": self.read,
+        }
+
 # Do not forget to run "python manage.py makemigrations" and then "python manage.py migrate"
 # after any changes are made to this file. 
 
+# "python manage.py createsuperuser" to create admin account. 

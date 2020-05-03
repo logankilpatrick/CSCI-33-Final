@@ -32,18 +32,20 @@ def profile(request, schoolID):
     # TODO: Pre-compute number of followers who follow said school. Use old code. 
     followers = 0
     users = User.objects.all()
-
-    for user in users:
-        schoolsFollowed = request.user.following.all()
-        for school in schoolsFollowed:
-            if school.name == schoolName:
-                followers += 1
+    if request.user.is_authenticated:
+        for user in users:
+            schoolsFollowed = request.user.following.all()
+            for school in schoolsFollowed:
+                if school.name == schoolName:
+                    followers += 1
 
 
     followed = False
-    for school in request.user.following.all():
-        if schoolID == school.id:
-            followed = True
+
+    if request.user.is_authenticated:
+        for school in request.user.following.all():
+            if schoolID == school.id:
+                followed = True
 
 
     return render(request, "alternativeSuccess/profile.html", {
