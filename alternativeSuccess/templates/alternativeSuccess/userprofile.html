@@ -33,14 +33,14 @@
                             {% if user.username != studentname %}
                                 <form action="{% url 'chatindex' %}" method="post">
                                     {% csrf_token %}
-                                    <input class="btn btn-primary" type="submit" value="Chat with mentor">
+                                    <input class="btn btn-primary" type="submit" value="Chat with user">
                                 </form>
                             {% endif %}
                             <!-- No arguments for now but may need to pass one in. -->
                             
                         </h6>
 
-                        {% if isMentor and user.username == studentname%}
+                        {% if isMentor and user.username == studentname %}
                             <div class="card-body">
                                 <form action="{% url 'addMentee' user.username %}" method="post">
                                     {% csrf_token %}
@@ -49,6 +49,15 @@
                                         <input autofocus class="form-control" type="text" name="menteeName" placeholder="">
                                     </div>
                                     <input class="btn btn-primary" type="submit" value="Mentor Student">
+                                </form>
+                            </div> 
+                        {% elif isMentor == False and user.username == studentname and user.mentor != None %}
+                            <div class="card-body">
+                                <form action="{% url 'removeMentor' user.username %}" method="post">
+                                    {% csrf_token %}
+                                    Your current mentor is {{ user.mentor }}
+                                    <div></div>
+                                    <input class="btn btn-primary" type="submit" value="Remove Your Mentor">
                                 </form>
                             </div> 
                         {% endif %}

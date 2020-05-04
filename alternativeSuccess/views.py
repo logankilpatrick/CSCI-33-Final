@@ -12,18 +12,22 @@ import json
 from .models import User, Program, School, Message
 import time
 
-# Returns all posts in order of when they were created. 
+# Returns all programs in order of their name. 
 def index(request):
     schools = School.objects.order_by("-name").all()
-    # TODO: Make creation time and not name. 
+    # TODO: Make creation time and sort by that, not name. 
 
     programs = Program.objects.all()
+    
+    if request.user.is_authenticated:
+        return render(request, "alternativeSuccess/index.html", {
+            "schools": schools, 
+            "programs": programs,
+        })
+    else:
+        return render(request, "alternativeSuccess/about.html")
 
-    return render(request, "alternativeSuccess/index.html", {
-        "schools": schools, 
-        "programs": programs,
-    })
-
+# Renders the chat homepage
 def chatindex(request):
     # Authenticated users view their inbox
     if request.user.is_authenticated:
@@ -86,7 +90,7 @@ def program(request, schoolName, programName):
         "Students": students,
     })
 
-# Naviagtes user to the profile of another user. 
+# Naviagtes user to the profile of another user or their own profile. 
 @login_required
 def userprofile(request, studentID):
     student = User.objects.get(id=studentID)
@@ -179,7 +183,25 @@ def following(request):
         "programs": programs,
     })
 
-# This will follow a mentor so assign themself as the mentor of a student
+# This will allow a mentee to remove their mentor.
+@login_required
+def removeMentor(request, username):
+    if request.method == "POST":
+        try:
+            User.objects.filter(username=username).update(mentor=None, program=None)
+            print(User.objects.get(username=username).program)            
+        except Exception as e:
+            # This catches if there is no username.
+            print(e)
+            return render(request, "alternativeSuccess/error.html", {
+                "message": "Unable to remove mentor. Confirm you have an active mentor and try again." })
+
+        return render(request, "alternativeSuccess/success.html", {
+                "message": "Mentor successfully removed." })
+
+    return HttpResponseRedirect(reverse("userprofile", args=(request.user.id,)))
+
+# This will allow a mentor so assign themself as the mentor of a student
 @login_required
 def addMentee(request, username):
 
@@ -187,12 +209,15 @@ def addMentee(request, username):
         menteeName = request.POST["menteeName"]
         try:
             mentor = User.objects.get(username=username)
-            User.objects.get(username=menteeName).studentsmentor.update(mentor=mentor)
+            User.objects.filter(username=menteeName).update(mentor=mentor)
+
         except:
             # This catches if there is no username.
-            return render(request, "alternativeSuccess/error.html")
+            return render(request, "alternativeSuccess/error.html", {
+                "message": "Mentor failed to be added. Make sure you enter the Mentee username." })
 
-        return render(request, "alternativeSuccess/success.html")
+        return render(request, "alternativeSuccess/success.html", {
+                "message": "Mentee successfully added." })
 
     return HttpResponseRedirect(reverse("userprofile", args=(request.user.id,)))
 

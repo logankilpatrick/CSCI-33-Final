@@ -19,7 +19,7 @@ urlpatterns = [
     path("userprofile/<int:studentID>", views.userprofile, name="userprofile"),
     path("chatinbox", views.chatindex, name="chatindex"),
     path("addMentee/<str:username>", views.addMentee, name="addMentee"),
-
+    path("removeMentor/<str:username>", views.removeMentor, name="removeMentor"),
     
     # API Routes
     path("chatinbox/messages", views.compose, name="compose"),
