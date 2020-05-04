@@ -25,13 +25,13 @@
                             <p>{{ programschool }}: {{ programname }}</p>
                             
                             {% if isMentor %}
-                                {{ studentname }} is a mentor.
+                                {{ studentname }} is a mentor. Contact them at {{ studentemail }}
                             {% else %}
                                 {{ studentname }} is a student looking for a mentor.
                             {% endif %}
                 
                             {% if user.username != studentname %}
-                                <form action="{% url 'chat' %}" method="post">
+                                <form action="{% url 'chatindex' %}" method="post">
                                     {% csrf_token %}
                                     <input class="btn btn-primary" type="submit" value="Chat with mentor">
                                 </form>

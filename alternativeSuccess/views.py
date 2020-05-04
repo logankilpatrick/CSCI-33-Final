@@ -111,12 +111,8 @@ def userprofile(request, studentID):
         "programname": programname,
         "studentname": student.username,
         "isMentor": student.isMentor,
+        "studentemail": student.email,
     })
-
-# Naviagtes user to the profile of another user. 
-@login_required
-def chat(request):
-    pass
 
 # Creates a new School object and then returns us to the index page. 
 @login_required
@@ -154,7 +150,8 @@ def newprogram(request):
             request.META.get("HTTP_REFERER", reverse("index"))
         )
 
-
+# TODO: This needs to be updated. Likely won't have time. 
+# Should allow a mentor to edit the info about a school/program.
 @login_required
 def editpost(request, post_id):
     if request.method == "POST":
@@ -207,7 +204,7 @@ def unfollow(request, schoolName):
 
     return HttpResponseRedirect(reverse("profile", args=(schoolobj.id,)))
 
-
+# Used to send Messages
 @csrf_exempt
 @login_required
 def compose(request):    
@@ -255,7 +252,7 @@ def compose(request):
 
     return JsonResponse({"message": "Message sent successfully."}, status=201)
 
-
+# Mail boxes function. Routes us to the correct mailbox (sent, inbox, etc.)
 @login_required
 def chatbox(request, mailbox):
     # Filter emails returned based on mailbox

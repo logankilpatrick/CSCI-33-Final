@@ -32,7 +32,9 @@
     </div>
     {% if user.is_authenticated %}
         <div id="mentors">
-
+            <h5 class="card-title">
+                <p>The mentors for this program are:</p> 
+            </h5>
             {% for student in Students %}
                 {% if student.isMentor == True %}
                     <div class="card mb-3">
