@@ -7,14 +7,15 @@ __In a sentence (or list of features), define a GOOD outcome for your final proj
 
 - [x] Ability for mentors/students to sign up
 - [x] Breakdown of all the different schools for students
-- [ ] Chat feature for students/mentors (Using JavaScript)
+- [x] Chat feature for students/mentors (Using JavaScript)
 - [x] Profile for mentors
 - ~~Main public feed that shows successful mentored students~~ 
   - (Switched to have the main feed be newly added programs)
 
 __In a sentence (or list of features), define a BETTER outcome for your final project. I.e., what do you THINK you can accomplish before the final project's deadline?__
 
-- [ ] Calendar integration so mentors and students can set up times to talk 
+- ~~Calendar integration so mentors and students can set up times to talk~~
+  - Upon further investiagtion, the "Date Input" html attribute is not universally supported by browsers (like Safari) so I decided to remove this feature. 
 - [ ] Better CSS to make the site more friendly and modern (this is a weak point for me as I am not very good at designing User Interfaces)
 
 __In a paragraph or more, outline your next steps. What new skills will you need to acquire? What topics will you need to research?__

@@ -39,9 +39,22 @@
                             <!-- No arguments for now but may need to pass one in. -->
                             
                         </h6>
+
+                        {% if isMentor and user.username == studentname%}
+                            <div class="card-body">
+                                <form action="{% url 'addMentee' user.username %}" method="post">
+                                    {% csrf_token %}
+                                    Add Mentee
+                                    <div class="form-group">
+                                        <input autofocus class="form-control" type="text" name="menteeName" placeholder="">
+                                    </div>
+                                    <input class="btn btn-primary" type="submit" value="Mentor Student">
+                                </form>
+                            </div> 
+                        {% endif %}
+                        
                     </div>
                 </div>
-            </div>
         {% endif %}
     </div>
 

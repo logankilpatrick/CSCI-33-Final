@@ -1,0 +1,17 @@
+{% extends "alternativeSuccess/layout.html" %}
+
+{% block body %}
+
+    <div id = "new_post">
+        {% if user.is_authenticated %}
+            <div class="card mb-3">
+                <div class="row no-gutters">
+                    <div class="card-body">
+                        Student's mentor successfully set. 
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}

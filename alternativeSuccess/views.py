@@ -179,6 +179,23 @@ def following(request):
         "programs": programs,
     })
 
+# This will follow a mentor so assign themself as the mentor of a student
+@login_required
+def addMentee(request, username):
+
+    if request.method == "POST":
+        menteeName = request.POST["menteeName"]
+        try:
+            mentor = User.objects.get(username=username)
+            User.objects.get(username=menteeName).studentsmentor.update(mentor=mentor)
+        except:
+            # This catches if there is no username.
+            return render(request, "alternativeSuccess/error.html")
+
+        return render(request, "alternativeSuccess/success.html")
+
+    return HttpResponseRedirect(reverse("userprofile", args=(request.user.id,)))
+
 ## Follow/Unfollow functions:
 
 # This will follow a user that is not being followed right now

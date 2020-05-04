@@ -18,6 +18,8 @@ urlpatterns = [
     path("unfollow/<str:schoolName>", views.unfollow, name="unfollow"),
     path("userprofile/<int:studentID>", views.userprofile, name="userprofile"),
     path("chatinbox", views.chatindex, name="chatindex"),
+    path("addMentee/<str:username>", views.addMentee, name="addMentee"),
+
     
     # API Routes
     path("chatinbox/messages", views.compose, name="compose"),
