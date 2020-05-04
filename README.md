@@ -21,9 +21,9 @@ Final Project for CSCI-33 Spring 2020
 | admin.py | Declares models so the admin can manually alter them via the Admin portal.      | 
 | models.py | Sets up the User, Program, School, and Message Classes.      | 
 | urls.py | Creates the different URL paths for this application.      | 
-| zebra stripes | are neat      | 
-| zebra stripes | are neat      | 
+| views.py | Handles most of the logic for the application: renders pages, updates the databse, etc.| 
 
+There was no other meaningful work done in any other file. 
 
 
 ## Outcomes
